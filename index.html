@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head><title>Join Closed Testing</title></head>
+<body>
+    <h2>Get Early Access</h2>
+    <input type="email" id="email" placeholder="Enter your email" required>
+    <button id="btn">Join Waitlist</button>
+    <p id="status"></p>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDUrPpUt6Tf06HTgFUJVeUIkQ2WRijQ6pQ",
+    authDomain: "tethr-email.firebaseapp.com",
+    projectId: "tethr-email",
+    storageBucket: "tethr-email.firebasestorage.app",
+    messagingSenderId: "55831403206",
+    appId: "1:55831403206:web:c5244b736368552227d5c7",
+    measurementId: "G-FRTYKJTTC0"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  document.getElementById('btn').addEventListener('click', async () => {
+      const email = document.getElementById('email').value;
+      if (email) {
+          await addDoc(collection(db, "waitlist"), { email: email });
+          document.getElementById('status').innerText = "Added to waitlist!";
+          document.getElementById('email').value = '';
+      }
+  });
+</script>
+</body>
+</html>
