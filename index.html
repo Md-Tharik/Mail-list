@@ -1,6 +1,90 @@
 <!DOCTYPE html>
 <html>
-<head><title>Join Closed Testing</title></head>
+<head><title>Join Closed Testing</title>
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        /* A subtle gradient background */
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #333;
+    }
+
+    /* Glassmorphism Card Effect */
+    .container {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        padding: 2.5rem;
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 100%;
+        max-width: 400px;
+    }
+
+    h2 {
+        color: #fff;
+        margin-bottom: 1.5rem;
+        font-size: 1.8rem;
+    }
+
+    input[type="email"] {
+        width: 100%;
+        padding: 12px 15px;
+        margin-bottom: 1rem;
+        border: none;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.8);
+        font-size: 1rem;
+        outline: none;
+        transition: box-shadow 0.3s ease;
+    }
+
+    input[type="email"]:focus {
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        background: #fff;
+        color: #764ba2;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s ease, transform 0.1s ease;
+    }
+
+    button:hover {
+        background: #f0f0f0;
+    }
+
+    button:active {
+        transform: scale(0.98);
+    }
+
+    #status {
+        margin-top: 1rem;
+        color: #e0f7fa;
+        font-weight: 500;
+        min-height: 20px;
+    }
+</style>
+    
+</head>
 <body>
     <h2>Get Early Access</h2>
     <input type="email" id="email" placeholder="Enter your email" required>
