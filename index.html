@@ -2,109 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- This meta tag is crucial to prevent the broken mobile view you experienced -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>App Early Access</title>
     
     <style>
-        /* Base Reset */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
-
-        /* Light Professional Theme Background */
-        body {
-            background-color: #f3f4f6; 
-            color: #1f2937;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        /* Centered White Card */
-        .waitlist-container {
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            padding: 40px 30px;
-            width: 100%;
-            max-width: 420px; /* Constrains width on desktop, fills screen on mobile */
-            text-align: center;
-        }
-
-        .waitlist-container h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: #111827;
-        }
-
-        .waitlist-container p {
-            font-size: 0.95rem;
-            color: #4b5563;
-            margin-bottom: 24px;
-            line-height: 1.5;
-        }
-
-        /* Responsive Form Layout */
-        .form-group {
-            display: flex;
-            flex-direction: column; /* Stacks input and button vertically */
-            gap: 12px;
-        }
-
-        input[type="email"] {
-            width: 100%;
-            padding: 14px 16px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-
-        input[type="email"]:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-        }
-
-        /* Sleek Dark Button */
-        button {
-            width: 100%;
-            padding: 14px 16px;
-            background-color: #111827; 
-            color: #ffffff;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        button:hover {
-            background-color: #374151;
-        }
-
-        button:disabled {
-            background-color: #9ca3af;
-            cursor: not-allowed;
-        }
-
-        /* Status Messaging */
-        #status-message {
-            margin-top: 16px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            min-height: 20px;
-        }
-        .success { color: #059669; } /* Green */
-        .error { color: #dc2626; } /* Red */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: #f3f4f6; color: #1f2937; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .waitlist-container { background-color: #ffffff; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); padding: 40px 30px; width: 100%; max-width: 420px; text-align: center; }
+        .waitlist-container h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; color: #111827; }
+        .waitlist-container p { font-size: 0.95rem; color: #4b5563; margin-bottom: 24px; line-height: 1.5; }
+        .form-group { display: flex; flex-direction: column; gap: 12px; }
+        input[type="email"] { width: 100%; padding: 14px 16px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 1rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+        input[type="email"]:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); }
+        button { width: 100%; padding: 14px 16px; background-color: #111827; color: #ffffff; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background-color 0.2s; }
+        button:hover { background-color: #374151; }
+        button:disabled { background-color: #9ca3af; cursor: not-allowed; }
+        #status-message { margin-top: 16px; font-size: 0.9rem; font-weight: 500; min-height: 20px; }
+        .success { color: #059669; }
+        .error { color: #dc2626; }
     </style>
 </head>
 <body>
@@ -122,11 +37,10 @@
     </div>
 
     <script type="module">
-        // Import v12.18.0 Firebase SDKs
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+        // Switched to doc, setDoc, and getDoc to handle custom document IDs (preventing duplicates)
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
-        // Your exact Firebase config
         const firebaseConfig = {
             apiKey: "AIzaSyDUrPpUt6Tf06HTgFUJVeUIkQ2WRijQ6pQ",
             authDomain: "tethr-email.firebaseapp.com",
@@ -137,19 +51,16 @@
             measurementId: "G-FRTYKJTTC0"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // UI Elements
         const btn = document.getElementById('btn');
         const emailInput = document.getElementById('email');
         const statusMessage = document.getElementById('status-message');
 
         btn.addEventListener('click', async () => {
-            const email = emailInput.value.trim();
+            const email = emailInput.value.trim().toLowerCase();
             
-            // Basic email format validation
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
                 statusMessage.textContent = "Please enter a valid email address.";
@@ -157,28 +68,34 @@
                 return;
             }
 
-            // Set loading state
             btn.disabled = true;
             btn.textContent = "Joining...";
             statusMessage.textContent = "";
 
             try {
-                // Write to Firestore
-                await addDoc(collection(db, "waitlist"), { 
-                    email: email,
-                    timestamp: new Date() // Adds the exact time they joined
-                });
+                // Use the email as the document ID to prevent duplicates
+                const docRef = doc(db, "waitlist", email);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    statusMessage.textContent = "You're already on the waitlist!";
+                    statusMessage.className = "success";
+                } else {
+                    await setDoc(docRef, { 
+                        email: email,
+                        timestamp: new Date(),
+                        copied: false // New flag for the admin panel
+                    });
+                    statusMessage.textContent = "You're on the list! Keep an eye on your inbox.";
+                    statusMessage.className = "success";
+                }
                 
-                // Success state
-                statusMessage.textContent = "You're on the list! Keep an eye on your inbox.";
-                statusMessage.className = "success";
-                emailInput.value = ''; // Clear the input
+                emailInput.value = ''; 
             } catch (error) {
                 console.error("Error adding document: ", error);
                 statusMessage.textContent = "Something went wrong. Please try again.";
                 statusMessage.className = "error";
             } finally {
-                // Reset button state
                 btn.disabled = false;
                 btn.textContent = "Join Waitlist";
             }
